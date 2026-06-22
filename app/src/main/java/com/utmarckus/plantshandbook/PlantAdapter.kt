@@ -42,7 +42,7 @@ class PlantAdapter : RecyclerView.Adapter<PlantAdapter.PlantHolder>() {
 
         fun bind(plant: Plant) = with(binding) {
             imageView.setImageResource(plant.imgId)
-            textView.text = root.context.getString(plant.title)
+            textView.text = plant.title
         }
     }
 }

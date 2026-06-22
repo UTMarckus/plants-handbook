@@ -1,7 +1,12 @@
 package com.utmarckus.plantshandbook
 
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -14,6 +19,9 @@ class MainActivity : AppCompatActivity() {
 
     private val plantAdapter = PlantAdapter()
 
+    private lateinit var launcher: ActivityResultLauncher<Intent>
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -25,13 +33,21 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        init()
-    }
+        launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == RESULT_OK) {
+                val plant = it.data?.getSerializableExtra("plant", Plant::class.java)
+                if (plant != null) plantAdapter.addPlant(plant)
+            }
+        }
 
-    private fun init() {
         binding.apply {
             recyclerView.layoutManager = GridLayoutManager(this@MainActivity, 3)
             recyclerView.adapter = plantAdapter
+
+            btnAddPlant.setOnClickListener {
+                launcher.launch(Intent(this@MainActivity, EditActivity::class.java))
+            }
         }
     }
+
 }
