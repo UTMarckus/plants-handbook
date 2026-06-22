@@ -5,15 +5,13 @@ plugins {
 android {
     namespace = "com.utmarckus.plantshandbook"
     compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
+        version = release(37)
     }
 
     defaultConfig {
         applicationId = "com.utmarckus.plantshandbook"
         minSdk = 24
-        targetSdk = 36
+        targetSdk = 37
         versionCode = 1
         versionName = "1.0"
 
@@ -32,11 +30,13 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
     viewBinding.enable = true
+    kotlin.compilerOptions.freeCompilerArgs.add("-Xannotation-default-target=param-property")
 }
 
 dependencies {
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.cardview)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.core.ktx)
     implementation(libs.material)
