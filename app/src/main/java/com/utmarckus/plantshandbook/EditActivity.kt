@@ -43,6 +43,19 @@ class EditActivity : AppCompatActivity() {
                 imgResListIndex = imgResListIndex.inc() % imgResList.size
                 imageView.setImageResource(imgResList[imgResListIndex])
             }
+
+            btnDone.setOnClickListener {
+                val plant = Plant(
+                    imgResList[imgResListIndex],
+                    editTitle.text.toString(),
+                    editDesc.text.toString()
+                )
+                val editIntent = intent.apply {
+                    putExtra("plant", plant)
+                }
+                setResult(RESULT_OK, editIntent)
+                finish()
+            }
         }
     }
 }
